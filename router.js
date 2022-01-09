@@ -7,7 +7,7 @@ const {
 } = require("./Controllers/Product")
 
 router.get("/api", (req, res)=> {
-  res.send("Let's build some fucking API")
+  res.send("ecommerce API, please reffer to /api/products")
 })
 
 router.get("/api/products", getProducts);
