@@ -1,7 +1,16 @@
 const Product = require('../Model/Product');
 
 const getProducts = (req, res) => {
-  res.send("I am the get products rout");
+  try {
+    Product.find((err, products) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(products);
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const createProduct = (req, res) => {
@@ -22,7 +31,37 @@ const createProduct = (req, res) => {
   })
 }
 
+const updateProduct = (req, res) => {
+  Product.findByIdAndUpdate({
+    _id: req.params.productId
+  }, {
+    $set: {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+      media: req.body.media,
+      active: req.body.active,
+    },
+  },
+    { new: true },
+    (err, Product) => {
+      if (err) {
+        res.send(err);
+      } else res.json(Product);
+    })
+}
+
+const deleteProduct = (req, res) => {
+  Product.findByIdAndDelete({
+    _id: req.params.productId
+  })
+    .then(response => res.json({ "message": `Product ${response._id} deleted` }))
+    .catch(err => res.json(err))
+}
+
 module.exports = {
   getProducts,
   createProduct,
+  updateProduct,
+  deleteProduct
 }
