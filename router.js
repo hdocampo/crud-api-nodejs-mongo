@@ -1,9 +1,11 @@
 const router = require("express").Router();
+
 const { 
   getProducts, 
   createProduct, 
   updateProduct,
-  deleteProduct 
+  deleteProduct,
+  uploadImg,
 } = require("./Controllers/Product")
 
 router.get("/api", (req, res)=> {
@@ -12,7 +14,7 @@ router.get("/api", (req, res)=> {
 
 router.get("/api/products", getProducts);
 
-router.post("/api/products", createProduct);
+router.post("/api/products", uploadImg, createProduct);
 
 router.put("/api/products/:productId", updateProduct);
 

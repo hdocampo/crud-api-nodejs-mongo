@@ -1,4 +1,16 @@
 const Product = require('../Model/Product');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const uploadImg = multer({ storage: storage }).single('media');
 
 const getProducts = (req, res) => {
   try {
@@ -18,7 +30,7 @@ const createProduct = (req, res) => {
     title: req.body.title,
     description: req.body.description,
     category: req.body.category,
-    media: req.body.media,
+    media: req.file.path,
     active: req.body.active,
   });
 
@@ -63,5 +75,6 @@ module.exports = {
   getProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  uploadImg
 }
